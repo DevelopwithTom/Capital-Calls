@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -77,13 +77,12 @@ WSGI_APPLICATION = 'val_capital.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postresql',
-        'NAME': 'CapitalCalls',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'capitalcalls',
         'USER': 'admin',
         'PASSWORD': 'pass',
-        'HOST': localhost',
+        'HOST': 'localhost',
         'PORT': '5432',
-        ),
     }
 }
 
