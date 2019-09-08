@@ -26,7 +26,7 @@ class Deposit(models.Model):
         super().save(**kwargs)
 
     class Meta:
-        ordering = ['id']
+        ordering = ['date']
 
    
 
