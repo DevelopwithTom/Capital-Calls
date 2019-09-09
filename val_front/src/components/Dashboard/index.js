@@ -32,29 +32,31 @@ export default class App extends Component {
     const { commitments } = this.state;
 
     return (
-      <div className="Commitments">
-        <h1 className="example">Dashboard</h1>
-        <Link to="/dashboard" className="btn btn-secondary">
-          Dashboard
-        </Link>
-        <Link to="/newcall" className="btn btn-secondary">
-          New Call
-        </Link>
+      <div className="container">
+        <div className="Commitments">
+          <h1 className="example">Dashboard</h1>
+          <Link to="/dashboard" className="btn btn-secondary">
+            Dashboard
+          </Link>
+          <Link to="/newcall" className="btn btn-secondary">
+            New Call
+          </Link>
 
-        <table className="table">
-          <tr>
-            <th>index</th>
-            <th>Date</th>
-            <th>Amount</th>
-          </tr>
-          {commitments.map((commitment, i) => (
-            <tr className="Commitment">
-              <td>{i + 1}</td>
-              <td>{commitment.date}</td>
-              <td>{commitment.amount}</td>
+          <table className="table">
+            <tr>
+              <th>index</th>
+              <th>Date</th>
+              <th>Amount</th>
             </tr>
-          ))}
-        </table>
+            {commitments.map((commitment, i) => (
+              <tr className="Commitment">
+                <td>{i + 1}</td>
+                <td>{commitment.date}</td>
+                <td>{commitment.amount}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
       </div>
     );
   }
