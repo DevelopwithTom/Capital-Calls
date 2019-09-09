@@ -1,15 +1,17 @@
 from rest_framework import serializers
-from core.models import Fund, Deposit, Call, Commitment
+from core.models import Fund, Commitment, Call, Drawdown
 
 class FundSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fund
         fields = ['id', 'name']
 
-class DepositSerializer(serializers.ModelSerializer):
+class CommitmentSerializer(serializers.ModelSerializer):
+    fundname = serializers.CharField(source='fund.name')
+    date = serializers.DateField(format="%d-%m-%Y")
     class Meta:
-        model = Deposit
-        fields = ['id', 'fund','date','amount','undrawn']
+        model = Commitment
+        fields = ['id', 'fund','date','amount','undrawn', 'fundname']
 
 
 class CallSerializer(serializers.ModelSerializer):
@@ -18,7 +20,7 @@ class CallSerializer(serializers.ModelSerializer):
         fields = ['id', 'amount', 'date']
 
 
-class CommitmentSerializer(serializers.ModelSerializer):
+class DrawdownSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Commitment
-        fields = ['id', 'call', 'deposit', 'date', 'amount']
+        model = Drawdown
+        fields = ['id', 'call', 'commitment', 'date', 'amount']

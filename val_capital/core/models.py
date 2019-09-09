@@ -10,7 +10,7 @@ class Fund(models.Model):
         ordering = ['id']
 
 
-class Deposit(models.Model):
+class Commitment(models.Model):
     fund = models.ForeignKey(Fund, on_delete=models.PROTECT)
     date = models.DateField()
     amount = models.DecimalField(max_digits=14, decimal_places=2)
@@ -35,7 +35,7 @@ class Deposit(models.Model):
 class Call(models.Model):
     amount = models.DecimalField(max_digits=14, decimal_places=2)
     date = models.DateField()
-    # Call and deposit have a many-to-many relationship through Commitment. Read up on many-to-many relatioships
+    # Call and commitment have a many-to-many relationship through drawdown. Read up on many-to-many relatioships
 
     def __str__(self):
         return "Call ID: %s, Amount: %s" %(self.id, self.amount)
@@ -43,35 +43,35 @@ class Call(models.Model):
     def save(self, **kwargs):
         if not self.pk:
             amount = self.amount
-            commitments = []
-            for deposit in Deposit.objects.all():
-                if deposit.undrawn > 0:
-                    if amount > deposit.undrawn:
-                        commitment = Commitment(deposit=deposit, amount=deposit.amount)
-                        commitments.append(commitment)
+            drawdowns = []
+            for commitment in Commitment.objects.all():
+                if commitment.undrawn > 0:
+                    if amount > commitment.undrawn:
+                        drawdown = Drawdown(commitment=commitment, amount=commitment.amount)
+                        drawdowns.append(drawdown)
       
-                        amount -= deposit.undrawn
-                        deposit.undrawn = 0
-                        deposit.save()
+                        amount -= commitment.undrawn
+                        commitment.undrawn = 0
+                        commitment.save()
                     else:
-                        commitment = Commitment(deposit=deposit, amount=amount)
-                        commitments.append(commitment)
-                        deposit.undrawn -= amount
+                        drawdown = Drawdown(commitment=commitment, amount=amount)
+                        drawdowns.append(drawdown)
+                        commitment.undrawn -= amount
                         amount = 0
-                        deposit.save()
+                        commitment.save()
                     if amount == 0:
                         break
 
         super().save(**kwargs)
-        for c in commitments:
+        for c in drawdowns:
             c.call = self
             c.date = self.date
-        Commitment.objects.bulk_create(commitments)
+        Drawdown.objects.bulk_create(drawdowns)
 
 
-class Commitment(models.Model):
+class Drawdown(models.Model):
     call = models.ForeignKey(Call, on_delete=models.PROTECT) 
-    deposit = models.ForeignKey(Deposit, on_delete=models.PROTECT)
+    commitment = models.ForeignKey(Commitment, on_delete=models.PROTECT)
     date = models.DateField()
     amount = models.DecimalField(max_digits=14, decimal_places=2)
 

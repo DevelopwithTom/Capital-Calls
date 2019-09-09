@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.db.models import Sum
 
-from .models import Fund, Deposit, Call, Commitment
+from .models import Fund, Commitment, Call, Drawdown
 
 class FundAdmin(admin.ModelAdmin):
     list_display=[
@@ -18,7 +18,7 @@ class FundAdmin(admin.ModelAdmin):
     ]
 
 
-class DepositAdmin(admin.ModelAdmin):
+class CommitmentAdmin(admin.ModelAdmin):
     list_display=[
         "id",
         "fund",
@@ -34,7 +34,7 @@ class DepositAdmin(admin.ModelAdmin):
 
     
 
-class CommitmentAdmin(admin.ModelAdmin):
+class DrawdownAdmin(admin.ModelAdmin):
 
     # def get_call(self,obj):
     #     return obj.call.amount
@@ -42,7 +42,7 @@ class CommitmentAdmin(admin.ModelAdmin):
     list_display=[
         "id",
         "call",
-        "deposit",
+        "commitment",
         "date",
         "amount",
     ]
@@ -61,7 +61,7 @@ class CallAdmin(admin.ModelAdmin):
 
 
     def allocated(self,obj):
-        total=Commitment.objects.filter(call=obj).aggregate(Sum("amount"))
+        total=Drawdown.objects.filter(call=obj).aggregate(Sum("amount"))
         return total['amount__sum']
 
 
@@ -84,9 +84,9 @@ admin.site.site_header = 'Capital Calls Administration'
 
 
 admin.site.register(Fund,FundAdmin)
-admin.site.register(Deposit,DepositAdmin)
-admin.site.register(Call,CallAdmin)
 admin.site.register(Commitment,CommitmentAdmin)
+admin.site.register(Call,CallAdmin)
+admin.site.register(Drawdown,DrawdownAdmin)
 
 admin.site.unregister(Group)
 

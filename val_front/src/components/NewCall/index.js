@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import "./style.css";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Table
+} from "reactstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -45,7 +53,11 @@ export default class App extends Component {
         // handle success
         console.log(response);
         this.setState({
-          commitments: response.data
+          commitments: response.data.map(item => ({
+            ...item,
+            undrawn: parseFloat(item.undrawn),
+            amount: parseFloat(item.amount)
+          }))
         });
       })
       .catch(error => {
@@ -58,16 +70,53 @@ export default class App extends Component {
   }
 
   render() {
-    const { date, investmentName, amount, commitments } = this.state;
+    const { date, investmentName, amount } = this.state;
+    let totalAmount = +this.state.amount || 0;
+
+    const commitments = this.state.commitments.map(commitment => {
+      let totalDrawdownNotice, remainingAfterDrawdown;
+
+      let nextTotalAmount = totalAmount - commitment.undrawn;
+      console.log(
+        commitment.undrawn,
+        "totalAmount:",
+        totalAmount,
+        "nextTotalAmount:",
+        nextTotalAmount
+      );
+
+      totalDrawdownNotice = remainingAfterDrawdown = 0;
+
+      totalDrawdownNotice = totalAmount;
+      remainingAfterDrawdown = nextTotalAmount;
+      if (nextTotalAmount > 0) {
+        totalDrawdownNotice = commitment.undrawn;
+      }
+
+      if (remainingAfterDrawdown < 0) {
+        remainingAfterDrawdown =
+          commitment.undrawn + remainingAfterDrawdown < 0
+            ? commitment.undrawn
+            : Math.abs(remainingAfterDrawdown);
+      } else {
+        remainingAfterDrawdown = 0;
+      }
+
+      if (totalDrawdownNotice < 0) totalDrawdownNotice = 0;
+
+      totalAmount = nextTotalAmount;
+
+      return {
+        ...commitment,
+        totalDrawdownNotice,
+        remainingAfterDrawdown
+      };
+    });
+
     return (
-      <div className="container">
-        <h1 className="example">New Call</h1>
-        <Link to="/dashboard" className="btn btn-secondary">
-          Dashboard
-        </Link>
-        <Link to="/newcall" className="btn btn-secondary">
-          New Call
-        </Link>
+      <div className="custom_container">
+        <h1>New Call</h1>
+
         <div className="flex-container">
           <div className="flex-col">
             <Form onSubmit={this.handleSubmit}>
@@ -114,20 +163,34 @@ export default class App extends Component {
             </Form>
           </div>
           <div className="flex-col">
-            <table className="table">
-              <tr>
-                <th>Commitment ID</th>
-                <th>Fund ID</th>
-                <th>Amount</th>
-              </tr>
-              {commitments.map((commitment, i) => (
-                <tr className="Commitment">
-                  <td>{commitment.id}</td>
-                  <td>{commitment.deposit}</td>
-                  <td>{commitment.amount}</td>
+            <Table borderless hover>
+              <thead>
+                <tr>
+                  <th style={{ width: "7%" }}>Commit ID</th>
+                  <th style={{ width: "7%" }}>Fund ID</th>
+                  <th style={{ width: "12%" }}>Date</th>
+                  <th>Fund Name</th>
+                  <th>Committed Amounts</th>
+                  <th>Undrawn Capital before Current Drawdown</th>
+                  <th>Drawdown Notice</th>
+                  <th>Undrawn Capital after Current Drawdown</th>
                 </tr>
-              ))}
-            </table>
+              </thead>
+              <tbody>
+                {commitments.map((commitment, i) => (
+                  <tr className="Commitment">
+                    <td>{commitment.id}</td>
+                    <td>{commitment.fund}</td>
+                    <td>{commitment.date}</td>
+                    <td>{commitment.fundname}</td>
+                    <td>{commitment.amount}</td>
+                    <td>{commitment.undrawn}</td>
+                    <td>{commitment.totalDrawdownNotice}</td>
+                    <td>{commitment.remainingAfterDrawdown}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </div>
         </div>
       </div>
