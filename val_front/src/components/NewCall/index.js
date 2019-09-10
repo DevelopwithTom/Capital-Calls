@@ -115,10 +115,10 @@ export default class App extends Component {
 
     return (
       <div className="custom_container">
-        <h1>New Call</h1>
+        <h4>New Call</h4>
 
         <div className="flex-container">
-          <div className="flex-col">
+          <div className="flex-col-form">
             <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label for="exampleDate">Date</Label>
@@ -134,7 +134,7 @@ export default class App extends Component {
               <FormGroup>
                 <Label for="exampleSelect">Rules</Label>
                 <Input type="select" name="select" id="exampleSelect">
-                  <option>First in first out</option>
+                  <option>First in First Out (FIFO)</option>
                 </Input>
               </FormGroup>
               <FormGroup>
@@ -159,11 +159,19 @@ export default class App extends Component {
                   onChange={this.update}
                 />
               </FormGroup>
-              <Button>Submit</Button>
+              <div className="confirm-button">
+                <Button outline color="success" size="lg">
+                  Confirm Call Submission
+                </Button>
+              </div>
             </Form>
           </div>
           <div className="flex-col">
             <Table borderless hover>
+              <colgroup>
+                <col span="6" class=""></col>
+                <col span="2" class="table-highlight"></col>
+              </colgroup>
               <thead>
                 <tr>
                   <th style={{ width: "7%" }}>Commit ID</th>
@@ -171,9 +179,9 @@ export default class App extends Component {
                   <th style={{ width: "12%" }}>Date</th>
                   <th>Fund Name</th>
                   <th>Committed Amounts</th>
-                  <th>Undrawn Capital before Current Drawdown</th>
+                  <th>Undrawn Capital before Drawdown</th>
                   <th>Drawdown Notice</th>
-                  <th>Undrawn Capital after Current Drawdown</th>
+                  <th>Undrawn Capital after Drawdown</th>
                 </tr>
               </thead>
               <tbody>

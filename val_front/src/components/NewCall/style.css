@@ -3,8 +3,18 @@
   flex-direction: row;
 }
 
+.flex-col {
+  /* border: grey 1px solid; */
+}
+
+.flex-col-form {
+  padding-top: 80px;
+}
+
 .custom_container {
-  padding: 70px;
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-top: 40px;
 }
 
 .flex-col {
@@ -20,4 +30,14 @@
 table {
   table-layout: fixed;
   /* word-wrap: break-word; */
+}
+
+.table-highlight {
+  background-color: rgb(245, 241, 225);
+}
+
+.confirm-button {
+  /* position: absolute; */
+  padding-left: 0px;
+  padding-top: 100px;
 }
