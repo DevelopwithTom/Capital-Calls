@@ -27,33 +27,45 @@ export default class App extends Component {
         // always executed
       });
   }
+  getRow(call) {
+    const cells = [];
+    cells.push(<td>{call.id}</td>);
+    cells.push(<td>{call.date}</td>);
+    this.props.funds.map((item, i) => {
+      cells.push(<td key={1}></td>);
+    });
 
+    call.drawdown_set.map(item => {
+      for (var i = 0; i < this.props.funds.length; i++) {
+        const fund = this.props.funds[i];
+        if (fund.id == item.commitment.fund) {
+          // we have a matching fund
+          console.log("Match found");
+          console.log(fund);
+          cells[i + 2] = <td>{item.amount}</td>;
+        }
+      }
+    });
+    return cells;
+  }
   render() {
     const { calls } = this.state;
 
     return (
-      <div className="container">
+      <div className="custom-container-dashboard">
         <div>
           <h4>Dashboard</h4>
 
           <table className="table">
             <tr>
-              <th>Date</th>
               <th>Call ID</th>
-              <th>Fund 1</th>
-              <th>Fund 2</th>
-              <th>Fund 3</th>
-              <th>Fund 4</th>
+              <th>Date</th>
+              {this.props.funds.map(item => (
+                <th key={item.id}>{item.name}</th>
+              ))}
             </tr>
             {calls.map((call, i) => (
-              <tr>
-                <td>{call.date}</td>
-                <td>{call.id}</td>
-                <td>{call.amount}</td>
-                <td>{call.amount}</td>
-                <td>{call.amount}</td>
-                <td>{call.amount}</td>
-              </tr>
+              <tr key={i}>{this.getRow(call)}</tr>
             ))}
           </table>
         </div>

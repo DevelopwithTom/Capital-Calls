@@ -44,7 +44,7 @@ class Call(models.Model):
         if not self.pk:
             amount = self.amount
             drawdowns = []
-            for commitment in Commitment.objects.all():
+            for commitment in Commitment.objects.order_by("date"):
                 if commitment.undrawn > 0:
                     if amount > commitment.undrawn:
                         drawdown = Drawdown(commitment=commitment, amount=commitment.amount)

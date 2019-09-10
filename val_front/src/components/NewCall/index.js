@@ -22,14 +22,24 @@ export default class App extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { date, investmentName, amount } = this.state;
+    const { date = "", investmentName = "", amount = "" } = this.state;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
     axios
-      .post("http://127.0.0.1:8000/api/calls/", {
-        date,
-        investmentName,
-        amount
-      })
+      .post(
+        "http://127.0.0.1:8000/api/calls/",
+        {
+          date,
+          investmentName,
+          amount
+        }
+        // headers
+      )
       .then(response => {
+        this.fetchCommitments();
         this.setState({
           date: "",
           investmentName: "",
@@ -46,7 +56,7 @@ export default class App extends Component {
     commitments: []
   };
 
-  componentDidMount() {
+  fetchCommitments() {
     axios
       .get("http://127.0.0.1:8000/api/commitments/")
       .then(response => {
@@ -67,6 +77,9 @@ export default class App extends Component {
       .finally(() => {
         // always executed
       });
+  }
+  componentDidMount() {
+    this.fetchCommitments();
   }
 
   render() {
