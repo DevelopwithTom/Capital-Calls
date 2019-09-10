@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "./style.css";
+
 import {
   Collapse,
   Navbar,
@@ -36,6 +38,9 @@ export class Navigation extends Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+              <NavItem className="admin-nav-button">
+                <NavLink href="http://localhost:8000/admin/">Admin</NavLink>
+              </NavItem>
               <NavItem>
                 <NavLink href="/dashboard/">Dashboard</NavLink>
               </NavItem>
