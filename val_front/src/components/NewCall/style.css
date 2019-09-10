@@ -3,8 +3,8 @@
   flex-direction: row;
 }
 
-.flex-col {
-  /* border: grey 1px solid; */
+.flex-col-table {
+  padding-left: 70px;
 }
 
 .flex-col-form {
@@ -19,17 +19,10 @@
 
 .flex-col {
   padding-left: 40px;
-
-  /* border: grey solid 2px; */
 }
-
-/* th {
-  width: 130px;
-} */
 
 table {
   table-layout: fixed;
-  /* word-wrap: break-word; */
 }
 
 .table-highlight {

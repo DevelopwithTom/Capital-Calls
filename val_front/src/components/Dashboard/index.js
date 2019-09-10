@@ -6,17 +6,17 @@ import { Link } from "react-router-dom";
 
 export default class App extends Component {
   state = {
-    drawdowns: []
+    calls: []
   };
 
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/api/drawdowns/")
+      .get("http://127.0.0.1:8000/api/calls/")
       .then(response => {
         // handle success
         console.log(response);
         this.setState({
-          drawdowns: response.data
+          calls: response.data
         });
       })
       .catch(error => {
@@ -29,24 +29,30 @@ export default class App extends Component {
   }
 
   render() {
-    const { drawdowns } = this.state;
+    const { calls } = this.state;
 
     return (
       <div className="container">
-        <div className="Drawdowns">
-          <h1 className="example">Dashboard</h1>
+        <div>
+          <h4>Dashboard</h4>
 
           <table className="table">
             <tr>
-              <th>index</th>
               <th>Date</th>
-              <th>Amount</th>
+              <th>Call ID</th>
+              <th>Fund 1</th>
+              <th>Fund 2</th>
+              <th>Fund 3</th>
+              <th>Fund 4</th>
             </tr>
-            {drawdowns.map((drawdown, i) => (
-              <tr className="Commitment">
-                <td>{i + 1}</td>
-                <td>{drawdown.date}</td>
-                <td>{drawdown.amount}</td>
+            {calls.map((call, i) => (
+              <tr>
+                <td>{call.date}</td>
+                <td>{call.id}</td>
+                <td>{call.amount}</td>
+                <td>{call.amount}</td>
+                <td>{call.amount}</td>
+                <td>{call.amount}</td>
               </tr>
             ))}
           </table>

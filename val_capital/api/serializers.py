@@ -15,12 +15,16 @@ class CommitmentSerializer(serializers.ModelSerializer):
 
 
 class CallSerializer(serializers.ModelSerializer):
+    # amountdrawdown = serializers.CharField(source='drawdown.amount')
+
     class Meta:
         model = Call
         fields = ['id', 'amount', 'date']
 
 
 class DrawdownSerializer(serializers.ModelSerializer):
+    callid = serializers.CharField(source='call.id')
+
     class Meta:
         model = Drawdown
-        fields = ['id', 'call', 'commitment', 'date', 'amount']
+        fields = ['id', 'call', 'commitment', 'date', 'amount', 'callid', 'funddrawdown']

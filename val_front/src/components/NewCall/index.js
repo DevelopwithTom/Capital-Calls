@@ -166,7 +166,7 @@ export default class App extends Component {
               </div>
             </Form>
           </div>
-          <div className="flex-col">
+          <div className="flex-col-table">
             <Table borderless hover>
               <colgroup>
                 <col span="6" class=""></col>
@@ -186,7 +186,7 @@ export default class App extends Component {
               </thead>
               <tbody>
                 {commitments.map((commitment, i) => (
-                  <tr className="Commitment">
+                  <tr>
                     <td>{commitment.id}</td>
                     <td>{commitment.fund}</td>
                     <td>{commitment.date}</td>

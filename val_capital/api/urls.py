@@ -5,6 +5,6 @@ router = DefaultRouter()
 router.register(r'funds', views.FundViewSet, basename='funds')  
 router.register(r'commitments', views.CommitmentViewSet, basename='commitments')  
 router.register(r'calls', views.CallViewSet, basename='calls')  
-router.register(r'drawdown', views.DrawdownViewSet, basename='drawdown')  
+router.register(r'drawdowns', views.DrawdownViewSet, basename='drawdowns')  
 
 urlpatterns = router.urls
