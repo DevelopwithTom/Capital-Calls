@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'core',
     'rest_framework',
-    
+   
 ]
 
 MIDDLEWARE = [
@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'val_capital.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'capitalcalls',
-        'USER': 'admin',
-        'PASSWORD': 'pass',
-        'HOST': 'localhost',
+        'NAME': os.environ.get('DB_NAME','localhost'),
+        'USER': os.environ.get('DB_USER','postgres'),
+        'PASSWORD': os.environ.get('DB_PASS', ''),
+        'HOST': os.environ.get('DB_HOST','localhost'),
         'PORT': '5432',
     }
 }

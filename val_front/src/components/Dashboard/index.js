@@ -54,7 +54,7 @@ export default class App extends Component {
     return (
       <div className="custom-container-dashboard">
         <div>
-          <h4>Dashboard</h4>
+          <h4>Calls Dashboard</h4>
 
           <table className="table">
             <tr>

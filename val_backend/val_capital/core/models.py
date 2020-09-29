@@ -28,8 +28,6 @@ class Commitment(models.Model):
     class Meta:
         ordering = ['date']
 
-   
-
 
 
 class Call(models.Model):
@@ -54,6 +52,7 @@ class Call(models.Model):
                         commitment.undrawn = 0
                         commitment.save()
                     else:
+                       
                         drawdown = Drawdown(commitment=commitment, amount=amount)
                         drawdowns.append(drawdown)
                         commitment.undrawn -= amount
